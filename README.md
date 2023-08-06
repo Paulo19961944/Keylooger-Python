@@ -8,7 +8,11 @@ Esse é um programa em Python que lê e captura dados do teclado.
 
 # Verifique se tem o Python instalado no seu Computador
 
+É necessário ter o Python no seu Computador
+
 # Verifique as variáveis de ambientes
+
+É necessário a configuração das variáveis de ambientes
 
 # Conclusão
 
