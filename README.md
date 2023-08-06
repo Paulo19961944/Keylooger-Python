@@ -1,4 +1,4 @@
-# Keylooger-Python
+# Keylogger-Python
 
 Esse é um programa em Python que lê e captura dados do teclado.
 
