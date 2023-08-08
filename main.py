@@ -1,25 +1,33 @@
 import keyboard
 import time
 
-keys_pressed = []
+sentences = []
+current_sentence = ""
 last_key_time = time.time()
 
 def on_key_press(key):
-    global last_key_time
+    global current_sentence, last_key_time
 
-    if key.name not in ["caps lock", "up", "left", "down", "right", "enter" ,"´", "^", ":", ";", "~","`"]:
-        if key.name == "space":  # Verifica se a tecla pressionada é a tecla de espaço
-            keys_pressed.append(" ")  # Adiciona um espaço em branco
+    if key.name == "backspace":
+        if current_sentence:
+            current_sentence = current_sentence[:-1]  # Remove o último caractere da frase
+    elif key.name == "enter":
+        if current_sentence:
+            sentences.append(current_sentence)  # Adiciona a frase à lista de frases
+            current_sentence = ""  # Reseta a frase atual
+    elif key.name not in ["caps lock", "up", "left", "down", "right", "´", "^", "~", "`"]:
+        if key.name == "space":
+            current_sentence += " "
         else:
-            keys_pressed.append(key.name)
+            current_sentence += key.name
 
-        # Imprimir a lista de teclas pressionadas se o tempo desde a última tecla for maior que 5 segundos
         current_time = time.time()
-        if current_time - last_key_time > 5:
+        if current_time - last_key_time > 0.2:
             last_key_time = current_time
-            if keys_pressed:
-                keys_str = " ".join(keys_pressed)
-                print(keys_str)
+            if current_sentence:
+                print("Current Sentence:", current_sentence)
+                if sentences:
+                    print("Previous Sentences:", sentences)
 
 keyboard.on_press(on_key_press)
 
