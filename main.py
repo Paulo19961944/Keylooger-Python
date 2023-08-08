@@ -7,7 +7,7 @@ last_key_time = time.time()
 def on_key_press(key):
     global last_key_time
 
-    if key.name not in ["shift", "shift_r", "caps lock", "up", "left", "down", "right", "ctrl", "ctrl_r", "tab", "backspace"]:
+    if key.name not in ["caps lock", "up", "left", "down", "right", "enter" ,"´", "^", ":", ";", "~","`"]:
         if key.name == "space":  # Verifica se a tecla pressionada é a tecla de espaço
             keys_pressed.append(" ")  # Adiciona um espaço em branco
         else:
