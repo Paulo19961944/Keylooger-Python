@@ -48,7 +48,7 @@ No menu:
 
 ### O Google vai te dar uma senha de 16 caracteres, algo assim:
 `abcd efgh ijkl mnop`
-Use essa senha no lugar da senha normal no seu script.
+<br></br>Use essa senha no lugar da senha normal no seu script.
 
 ## 🚀 Como rodar
 ### Clone o repositório:
