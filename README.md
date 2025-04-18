@@ -40,7 +40,7 @@ pip install pynput
 2. Role até “Verificação em duas etapas” e ative (se ainda não tiver feito isso).
 3. Depois que estiver ativado, você verá a opção chamada “Senhas de app”. Clique nela.
 
-No menu:
+**No menu:**
 
 4. Escolha "Outro (nome personalizado)"
 5. Digite algo como: Keylogger Demo
