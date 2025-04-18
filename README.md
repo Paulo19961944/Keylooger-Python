@@ -34,6 +34,22 @@ Instale as dependências com:
 ```bash
 pip install pynput
 ```
+
+## 👨‍🏫 Passo a Passo — Criando uma senha de app no Gmail
+1. Entre em https://myaccount.google.com/security
+2. Role até “Verificação em duas etapas” e ative (se ainda não tiver feito isso).
+3. Depois que estiver ativado, você verá a opção chamada “Senhas de app”. Clique nela.
+
+No menu:
+
+4. Escolha "Outro (nome personalizado)"
+5. Digite algo como: Keylogger Demo
+6. Clique em Gerar
+
+### O Google vai te dar uma senha de 16 caracteres, algo assim:
+`abcd efgh ijkl mnop`
+Use essa senha no lugar da senha normal no seu script.
+
 ## 🚀 Como rodar
 ### Clone o repositório:
 
