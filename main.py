@@ -1,68 +1,63 @@
-import keyboard
-import string
-import time
-
+from pynput import keyboard
 
 class KeyLogger:
     def __init__(self):
-        self.sentences = []
         self.current_sentence = ""
-        self.last_key_time = time.time()
-
-        # Teclas que não devem ser incluídas nas frases
-        self.ignored_keys = {
-            "caps lock", "up", "left", "down", "right", "shift", "ctrl",
-            "alt", "alt gr", "tab", "esc", "enter", "backspace"
+        self.dead_key = None
+        self.dead_key_map = {
+            ("´", "a"): "á", ("´", "e"): "é", ("´", "i"): "í", ("´", "o"): "ó", ("´", "u"): "ú", ("´", "y"): "ý",
+            ("`", "a"): "à", ("`", "e"): "è", ("`", "i"): "ì", ("`", "o"): "ò", ("`", "u"): "ù",
+            ("~", "a"): "ã", ("~", "o"): "õ", ("~", "n"): "ñ",
+            ("^", "a"): "â", ("^", "e"): "ê", ("^", "i"): "î", ("^", "o"): "ô", ("^", "u"): "û",
+            ("¨", "u"): "ü", ("¨", "i"): "ï", ("¨", "e"): "ë", ("¨", "a"): "ä", ("¨", "o"): "ö",
+            ("'", "c"): "ç",
         }
 
-    def is_valid_key(self, key_event):
-        """Filtra apenas as teclas que são imprimíveis e não ignoradas."""
+    def on_press(self, key):
         try:
-            if key_event.name in self.ignored_keys:
-                return False
-            if len(key_event.name) == 1 and key_event.name in string.printable:
-                return True
-            return key_event.name == "space"
-        except Exception:
-            return False
+            if hasattr(key, 'char') and key.char is not None:
+                char = key.char
 
-    def process_key(self, key_event):
-        """Processa um evento de tecla pressionada."""
-        key_name = key_event.name
+                # Verifica se é uma tecla morta (dead key)
+                if char in ['´', '`', '~', '^', '¨', "'"]:
+                    self.dead_key = char
+                else:
+                    if self.dead_key:
+                        combo = self.dead_key_map.get((self.dead_key, char.lower()))
+                        if combo:
+                            self.current_sentence += combo
+                        else:
+                            # Se não existir no mapa, adiciona os dois
+                            self.current_sentence += self.dead_key + char
+                        self.dead_key = None
+                    else:
+                        self.current_sentence += char
 
-        if key_name == "backspace":
-            self.current_sentence = self.current_sentence[:-1]
-        elif key_name == "enter":
-            if self.current_sentence:
-                self.sentences.append(self.current_sentence)
-                print(f"Frase registrada: {self.current_sentence}")
+                print("\rFrase atual: " + self.current_sentence + " ", end="", flush=True)
+
+            elif key == keyboard.Key.space:
+                self.current_sentence += " "
+                print("\rFrase atual: " + self.current_sentence + " ", end="", flush=True)
+
+            elif key == keyboard.Key.backspace:
+                self.current_sentence = self.current_sentence[:-1]
+                print("\rFrase atual: " + self.current_sentence + " ", end="", flush=True)
+
+            elif key == keyboard.Key.enter:
+                print(f"\nFrase registrada: {self.current_sentence}")
                 self.current_sentence = ""
-        elif key_name == "space":
-            self.current_sentence += " "
-        elif self.is_valid_key(key_event):
-            self.current_sentence += key_name
 
-        # Exibe a frase atual se passou um tempo desde a última tecla
-        current_time = time.time()
-        if current_time - self.last_key_time > 0.2:
-            self.last_key_time = current_time
-            if self.current_sentence:
-                print("Frase atual:", self.current_sentence)
-                if self.sentences:
-                    print("Frases anteriores:", self.sentences)
+            elif key == keyboard.Key.esc:
+                print("\nEncerrando...")
+                return False
+
+        except Exception as e:
+            print(f"\n[ERRO] {e}")
 
     def start(self):
-        print("Iniciando o monitoramento de teclas (pressione ESC para sair)...")
-        try:
-            while True:
-                event = keyboard.read_event()
-                if event.event_type == keyboard.KEY_DOWN:
-                    if event.name == "esc":
-                        print("Encerrando.")
-                        break
-                    self.process_key(event)
-        except KeyboardInterrupt:
-            print("Interrompido pelo usuário.")
+        print("🟢 Keylogger rodando em segundo plano. Pressione ESC para sair.")
+        with keyboard.Listener(on_press=self.on_press) as listener:
+            listener.join()
 
 
 if __name__ == "__main__":
