@@ -73,6 +73,6 @@ Este código é ideal para quem quer aprender sobre:
 - Composição de caracteres com teclas mortas
 - Criação de scripts que rodam em segundo plano
 
-### ✍️ Autor
-- Feito com 💻 por [Paulo Henrique Azevedo do Nascimento]
-- Entre em contato: [nascimentopaulo804@gmail.com]
+## ✍️ Autor
+- Feito com 💻 por Paulo Henrique Azevedo do Nascimento
+- Entre em contato: nascimentopaulo804@gmail.com
