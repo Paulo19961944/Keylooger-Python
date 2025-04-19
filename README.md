@@ -34,9 +34,6 @@ Instale as dependências com:
 
 ```bash
 pip install pynput
-```
-
-```bash
 pip install yagmail
 ```
 
