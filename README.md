@@ -28,11 +28,16 @@ Este projeto é um **keylogger educativo**, desenvolvido em Python, com o objeti
 
 - Python 3.7+
 - Biblioteca `pynput`
+- Biblioteca `yagmail`
 
 Instale as dependências com:
 
 ```bash
 pip install pynput
+```
+
+```bash
+pip install yagmail
 ```
 
 ## 👨‍🏫 Passo a Passo — Criando uma senha de app no Gmail
